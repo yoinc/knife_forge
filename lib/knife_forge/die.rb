@@ -30,12 +30,17 @@ module KnifeForge
       @symbols
     end
 
+    def random(max)
+      rand(max)
+    end
+
     def regions(value)
-      index                 = Random.new.rand(value.length).floor
+      index                 = self.random(value.length).floor
       @die_options[:region] = value[index]['name']
       @die_options[:image]  = value[index]['image']
 
-      av_zone_index                    = Random.new.rand(value[index]['availability_zones'].length).floor
+      av_zone_index                    = self.random(value[index]['availability_zones'].length).floor
+
       @die_options[:availability_zone] = value[index]['availability_zones'][av_zone_index]
     end
 
@@ -45,10 +50,8 @@ module KnifeForge
 
     def serial(length=5)
       str = ''
-      # rand = Random.new
       length.times do
-        # str += HASH_CHARS[rand.rand(HASH_CHARS.length).floor]
-        str += HASH_CHARS[Kernel.rand(HASH_CHARS.length).floor]
+        str += HASH_CHARS[self.random(HASH_CHARS.length).floor]
       end
 
       return str
