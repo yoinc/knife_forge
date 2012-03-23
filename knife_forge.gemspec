@@ -2,7 +2,7 @@ require 'rake'
 
 spec = Gem::Specification.new do |s|
   s.name        = 'knife_forge'
-  s.version     = '0.2'
+  s.version     = '0.3'
   s.summary     = 'Where knives are made'
   s.description =<<-EOF
 command line tool for generating and executing knife commands in batches.

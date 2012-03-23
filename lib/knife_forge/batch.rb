@@ -6,8 +6,9 @@ module KnifeForge
       @config = Config.new Chef::Knife::Ec2ServerCreate.new
 
       @config.cli.config[:forge_quantity].times do
-        logger = Logger.new(@config)
-        spawn logger.wrap_command(Hammer.new(Die.new @config).drop)
+        die = Die.new @config
+        logger = Logger.new(die.options)
+        spawn logger.wrap_command(Hammer.new(die).drop)
       end
     end
 
@@ -15,6 +16,7 @@ module KnifeForge
       child_pid = Kernel.fork
     
       if child_pid.nil?
+        puts "Spawning #{cmd}"
         exec cmd
       else
         Process.detach(child_pid)
@@ -30,7 +32,7 @@ module KnifeForge
     end
 
     def path
-      @path ||= "log/forge/#{@options.knife[:node_name]}.log"
+      @path ||= "log/forge/#{@options[:node_name]}.log"
     end
 
     def initialize_log
