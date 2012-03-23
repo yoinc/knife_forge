@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/knife_forge
+lib/knife_forge.rb
+test/test_knife_forge.rb
