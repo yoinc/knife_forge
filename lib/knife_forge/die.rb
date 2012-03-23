@@ -45,9 +45,10 @@ module KnifeForge
 
     def serial(length=5)
       str = ''
-      rand = Random.new
+      # rand = Random.new
       length.times do
-        str += HASH_CHARS[rand.rand(HASH_CHARS.length).floor]
+        # str += HASH_CHARS[rand.rand(HASH_CHARS.length).floor]
+        str += HASH_CHARS[Kernel.rand(HASH_CHARS.length).floor]
       end
 
       return str

@@ -32,10 +32,10 @@ module KnifeForge
         :required     => true
 
       option :forge_quantity,
-        :long         => "--forge-quantity QUANTITY",
-        :description  => "number of servers you want built",
-        :required     => true,
-        :proc         => Proc.new {|q| q.to_i}
+        :long        => "--forge-quantity QUANTITY",
+        :description => "number of servers you want built",
+        :default     => 1,
+        :proc        => Proc.new {|q| q.to_i}
 
       class << self
         def clone_options(parent)
