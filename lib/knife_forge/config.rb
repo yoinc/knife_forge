@@ -11,18 +11,29 @@
 
 module KnifeForge
   class Config
-    attr_reader :cli, :knife, :forge, :merged_options
+    attr_reader :cli, :knife, :forge
 
     def initialize(parent)
-      @cli = CLI.new
-      @cli.parse_options
-      @knife = Knife.load(@cli.config[:forge_template])
-      @forge = Forge.load(@cli.config[:forge_template])
-      
-      @merged_options = @cli.config.merge @knife
-      @merged_options = @knife
-    end
+      @cli = cli_args(parent)
 
+      knife_defaults = Options.new.load_defaults(@cli[:forge_template], 'knife')
+      forge_defaults = Options.new.load_defaults(@cli[:forge_template], 'forge')
+
+      @knife = knife_defaults.merge @cli
+      # Mixlib is a piece of shit.
+      @knife.delete(:forge_template)
+      @knife.delete(:forge_quantity)
+
+      @forge = forge_defaults
+    end
+    
+    def cli_args(parent)
+      CLI.clone_options(parent)
+      knife_cli = CLI.new
+      knife_cli.parse_options(ARGV)
+      knife_cli.config
+    end
+    
     class CLI
       include Mixlib::CLI
 
@@ -40,39 +51,40 @@ module KnifeForge
       class << self
         def clone_options(parent)
           parent.options.each do |key, data|
-            option key.to_sym, data
+            option key.to_sym, {
+              :short       => data[:short],
+              :long        => data[:long],
+              :description => data[:description]
+              }
           end
           self
         end
       end
     end
 
-    class ConfigFile
-      class << self
-        def load_options(template, sub_section)
-          opts = YAML.load_file(template)
-          configure do |c|
-            opts[sub_section].each do |key, data|
-              c[key.to_sym] = data
-            end
-          end
+    class Options < Hash
+
+      def load_defaults(template, sub_section)
+        opts = YAML.load_file(template)
+        opts[sub_section].each do |key, value|
+          self[key.to_sym] = value.is_a?(Hash) ? Options.symbolize_keys(value) : value
+        end
+        self
+      end
+
+      def override(overrides)
+        self.each_key do |key|
+          self[key] = overrides[key] unless overrides[key].nil?
         end
       end
-    end
 
-    class Knife < ConfigFile
-      extend(Mixlib::Config)
-
-      def self.load(template_path)
-        load_options template_path, 'knife'
-      end
-    end
-
-    class Forge < ConfigFile
-      extend(Mixlib::Config)
-
-      def self.load(template_path)
-        load_options template_path, 'forge'
+      def self.symbolize_keys(hash)
+        hash.inject({}) do |result, (key, value)|
+          new_key         = key.is_a?(String) ? key.to_sym : key
+          new_value       = value.is_a?(Hash) ? symbolize_keys(value) : value
+          result[new_key] = new_value
+          result
+        end
       end
     end
   end

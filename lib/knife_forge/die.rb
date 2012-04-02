@@ -3,49 +3,57 @@
 
 module KnifeForge
   class Die
-    HASH_CHARS = 'ABCDEFGHIJKLMNOPQRATUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+    HASH_CHARS = 'abcdefghijklmnopqrstuvwxyz1234567890'
 
     def initialize(config)
       @config = config
-      @die_options = {}
     end
 
     def options
-      @options ||= cut_die
+      @die_options ||= {
+        :node_name         => node_name,
+        :region            => region,
+        :image             => image,
+        :availability_zone => availability_zone
+      }.merge @config.knife
     end
 
-    private
-
-    def cut_die
-      @config.forge.each do |key, value|
-        self.send key.to_sym, value
+    def node_name
+      unless @config.knife[:node_name].nil?
+        @config.knife[:node_name]
+      else
+        @node_name ||= @config.forge[:base_node_name].chomp('-') + "-" + serial
       end
+    end
 
-      # @config.merged_options.merge! @die_options
-      opts = @config.merged_options.merge! @die_options
-      @symbols = {}
-      opts.each do |key, value|
-        @symbols[key.to_sym] = value
+    def region
+      unless @config.knife[:region].nil?
+        return @config.knife[:region]
+      else
+        return @region ||= Proc.new {
+          choice  = random(@config.forge[:regions].size).floor
+          @config.forge[:regions].keys[choice]
+        }.call
       end
-      @symbols
     end
 
-    def random(max)
-      Kernel.rand(max)
+    def availability_zone
+      unless @config.knife[:availability_zone].nil?
+        @config.knife[:availability_zone]
+      else
+        @availability_zone ||= Proc.new {
+          choice  = random(@config.forge[:regions][region][:availability_zones].size).floor
+          @config.forge[:regions][region][:availability_zones][choice]
+        }.call
+      end
     end
 
-    def regions(value)
-      index                 = random(value.length).floor
-      @die_options[:region] = value[index]['name']
-      @die_options[:image]  = value[index]['image']
-
-      av_zone_index                    = random(value[index]['availability_zones'].length).floor
-
-      @die_options[:availability_zone] = value[index]['availability_zones'][av_zone_index]
-    end
-
-    def base_node_name(value)
-      @die_options[:node_name] = value.chomp('-') + "-" + serial
+    def image
+      unless @config.knife[:image].nil?
+        return @config.knife[:image]
+      else
+        @config.forge[:regions][region][:image]
+      end
     end
 
     def serial(length=5)
@@ -55,6 +63,10 @@ module KnifeForge
       end
 
       return str
+    end
+
+    def random(max)
+      Kernel.rand(max)
     end
   end
 end
