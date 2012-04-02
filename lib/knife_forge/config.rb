@@ -51,11 +51,11 @@ module KnifeForge
       class << self
         def clone_options(parent)
           parent.options.each do |key, data|
-            option key.to_sym, {
-              :short       => data[:short],
+            opts = (data[:short].nil? ? {} : {:short => data[:short]} )
+            option key.to_sym, opts.merge({
               :long        => data[:long],
               :description => data[:description]
-              }
+              })
           end
           self
         end

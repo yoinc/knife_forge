@@ -28,7 +28,7 @@ module KnifeForge
 
     def region
       unless @config.knife[:region].nil?
-        return @config.knife[:region]
+        return @config.knife[:region].to_sym
       else
         return @region ||= Proc.new {
           choice  = random(@config.forge[:regions].size).floor

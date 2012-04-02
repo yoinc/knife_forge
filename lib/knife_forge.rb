@@ -3,7 +3,7 @@ require 'rubygems'
 require 'yaml'
 require 'mixlib/cli'
 require 'mixlib/config'
-require 'ap'
+# require 'ap'
 
 
 gem 'chef'

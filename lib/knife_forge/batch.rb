@@ -5,17 +5,6 @@ module KnifeForge
     def run
       @config = Config.new Chef::Knife::Ec2ServerCreate.new
 
-        # die = Die.new @config
-        # 
-        # puts "Knife Options"
-        # ap @config.knife
-        # puts "Forge Options"
-        # ap @config.forge
-        # puts "Cli Options"
-        # ap @config.cli
-        # puts "Die Options"
-        # ap die.options
-
       @config.cli[:forge_quantity].times do
         die = Die.new @config
 
@@ -27,7 +16,7 @@ module KnifeForge
         # ap @config.cli
         # puts "Die Options"
         # ap die.options
-
+        # 
         logger = Logger.new(die.options)
         spawn logger.wrap_command(Hammer.new(die).drop)
       end
