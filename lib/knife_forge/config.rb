@@ -90,7 +90,3 @@ module KnifeForge
   end
 end
 
-
-# options = KnifeForge::Config.new Chef::Knife::Ec2ServerCreate.new
-# ap options.merged_options
-# ap options.forge

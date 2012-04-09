@@ -7,8 +7,7 @@ module KnifeForge
     end
 
     def drop
-      args = "ec2 server create".split + ARGV
-      return "knife ec2 server create #{cli_args}"
+      return "#{@die.config.forge[:preprocessor]} knife ec2 server create #{cli_args}"
     end
 
     def cli_args

@@ -4,6 +4,7 @@
 module KnifeForge
   class Die
     HASH_CHARS = 'abcdefghijklmnopqrstuvwxyz1234567890'
+    attr_accessor :config
 
     def initialize(config)
       @config = config
