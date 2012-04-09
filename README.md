@@ -1,14 +1,14 @@
-= knife_forge
+# knife_forge
 
 Where knives are made.
 
-== DESCRIPTION:
+## DESCRIPTION:
 
 Provides a template system for building servers with knife.  It also provides
 batch building functionality to spin up a lot of servers all at the same time 
 and strip them randomly across availability zones and regions.
 
-== FEATURES/PROBLEMS:
+## FEATURES/PROBLEMS:
 
 - Read knife options from a template
 - Command line overrides of template options (buggy)
@@ -16,7 +16,7 @@ and strip them randomly across availability zones and regions.
 - Logs build to a file named after the node
 - Generates a serial file
 
-== SYNOPSIS:
+## SYNOPSIS:
 
     $ forge
     Usage: /Library/Ruby/Gems/1.8/bin/forge (options)
@@ -89,15 +89,15 @@ Example Configuration file:  base.yml
             - 'us-west-2b'
 
 
-== REQUIREMENTS:
+## REQUIREMENTS:
 
 Ruby 1.8.7 or greater
 
-== INSTALL:
+## INSTALL:
 
     gem install knife_forge
 
-== DEVELOPERS:
+## DEVELOPERS:
 
 Fork me on Github and send me a pull request.  FYI, here's my todo list:
 
@@ -107,7 +107,7 @@ Fork me on Github and send me a pull request.  FYI, here's my todo list:
 - command line switch to run in the foreground
 
 
-== LICENSE:
+## LICENSE:
 
 (The MIT License)
 
