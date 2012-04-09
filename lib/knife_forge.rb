@@ -14,7 +14,7 @@ require 'chef/knife/ec2_server_create'
 $:.unshift File.dirname(__FILE__)
 
 
-module KnifeForgej
+module KnifeForge
   autoload :Batch,   'knife_forge/batch'
   autoload :Config,  'knife_forge/config'
   autoload :Die,     'knife_forge/die'
