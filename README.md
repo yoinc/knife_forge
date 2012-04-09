@@ -1,12 +1,10 @@
-# knife_forge
-
-Where knives are made.
+# Knife Forge :: Where knives are made
 
 ## DESCRIPTION:
 
 Provides a template system for building servers with knife.  It also provides
-batch building functionality to spin up a lot of servers all at the same time 
-and strip them randomly across availability zones and regions.
+batch building functionality to spin up servers in parallel and stripe them 
+randomly across availability zones and regions.
 
 ## FEATURES/PROBLEMS:
 
