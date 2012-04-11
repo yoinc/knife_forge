@@ -19,7 +19,7 @@ module KnifeForge
     
       if child_pid.nil?
         puts "Spawning #{cmd}"
-        # exec cmd
+        exec cmd
       else
         Process.detach(child_pid)
         return child_pid
