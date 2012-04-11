@@ -9,6 +9,7 @@ gem 'chef'
 gem 'knife-ec2'
 require 'chef'
 require 'chef/knife/ec2_server_create'
+require 'chef/application/knife'
 
 
 $:.unshift File.dirname(__FILE__)

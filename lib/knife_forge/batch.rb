@@ -3,7 +3,9 @@
 module KnifeForge
   class Batch
     def run
-      @config = Config.new Chef::Knife::Ec2ServerCreate.new
+      parents = [Chef::Knife::Ec2ServerCreate.new]
+      parents << Chef::Application::Knife.new
+      @config = Config.new parents
 
       @config.cli[:forge_quantity].times do
         die = Die.new @config
@@ -17,7 +19,7 @@ module KnifeForge
     
       if child_pid.nil?
         puts "Spawning #{cmd}"
-        exec cmd
+        # exec cmd
       else
         Process.detach(child_pid)
         return child_pid

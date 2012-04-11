@@ -13,8 +13,8 @@ module KnifeForge
   class Config
     attr_reader :cli, :knife, :forge
 
-    def initialize(parent)
-      @cli = cli_args(parent)
+    def initialize(parents)
+      @cli = cli_args(parents)
 
       knife_defaults = Options.new.load_defaults(@cli[:forge_template], 'knife')
       forge_defaults = Options.new.load_defaults(@cli[:forge_template], 'forge')
@@ -27,8 +27,10 @@ module KnifeForge
       @forge = forge_defaults
     end
     
-    def cli_args(parent)
-      CLI.clone_options(parent)
+    def cli_args(parents)
+      parents.each do |parent|
+        CLI.clone_options(parent)
+      end
       knife_cli = CLI.new
       knife_cli.parse_options(ARGV)
       knife_cli.config
@@ -50,6 +52,7 @@ module KnifeForge
 
       class << self
         def clone_options(parent)
+          puts "Cloning options from #{parent.class}"
           parent.options.each do |key, data|
             key = data[:long].split(' ')[0]
             # puts "Original Long Flag: #{key}"
