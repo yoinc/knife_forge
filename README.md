@@ -103,6 +103,7 @@ Fork me on Github and send me a pull request.  FYI, here's my todo list:
 - replace the restrictive base node name with serial appended to a custom 
   formatable string that has access to any of the knife command line options.
 - command line switch to run in the foreground
+- remove the ec2 specific items to allow it to work with any hosting provider
 
 
 ## LICENSE:

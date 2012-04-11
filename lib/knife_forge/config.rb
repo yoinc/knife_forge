@@ -51,6 +51,10 @@ module KnifeForge
       class << self
         def clone_options(parent)
           parent.options.each do |key, data|
+            key = data[:long].split(' ')[0]
+            # puts "Original Long Flag: #{key}"
+            key = key.slice(2, key.length).gsub('-','_')
+            # puts "Sliced Long Flag: #{key}"
             opts = (data[:short].nil? ? {} : {:short => data[:short]} )
             option key.to_sym, opts.merge({
               :long        => data[:long],
