@@ -11,6 +11,11 @@ module KnifeForge
         die = Die.new @config
         logger = Logger.new(die.options)
         spawn logger.wrap_command(Hammer.new(die).drop)
+
+        unless @config.cli[:forge_quantity] == 1
+          puts "Waiting 10 seconds before spinning up the next node..."
+          sleep 10
+        end
       end
     end
 

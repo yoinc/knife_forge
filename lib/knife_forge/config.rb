@@ -23,8 +23,10 @@ module KnifeForge
       # Mixlib is a piece of shit.
       @knife.delete(:forge_template)
       @knife.delete(:forge_quantity)
+      @knife.delete(:forge_node_name_pattern)
 
       @forge = forge_defaults
+      @forge[:node_name_pattern] = @cli[:forge_node_name_pattern] unless @cli[:forge_node_name_pattern].nil?
     end
     
     def cli_args(parents)
@@ -49,6 +51,10 @@ module KnifeForge
         :description => "number of servers you want built",
         :default     => 1,
         :proc        => Proc.new {|q| q.to_i}
+
+      option :forge_node_name_pattern,
+        :long        => "--forge-node-name-pattern PATTERN",
+        :description => "a manual override of the node name pattern, don't forget the serial."
 
       class << self
         def clone_options(parent)
