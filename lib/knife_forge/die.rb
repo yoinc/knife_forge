@@ -12,11 +12,11 @@ module KnifeForge
 
     def options
       @die_options ||= {
-        :node_name         => node_name,
         :region            => region,
         :image             => image,
         :availability_zone => availability_zone,
-        :subnet            => subnet
+        :subnet            => subnet,
+        :node_name         => node_name
       }.merge @config.knife
     end
 
@@ -44,10 +44,12 @@ module KnifeForge
         @config.knife[:subnet]
       else
         unless @config.forge[:regions][region][:subnets].nil?
-          @subnet ||= Proc.new {
-            choice  = random(@config.forge[:regions][region][:subnets].size).floor
-            @config.forge[:regions][region][:subnets][choice]
+          @subnet_name ||= Proc.new {
+            keys = @config.forge[:regions][region][:subnets].keys
+            choice  = random(keys.size).floor
+            keys[choice]
           }.call
+          @subnet ||= @config.forge[:regions][region][:subnets][@subnet_name]
         end
       end
     end
@@ -75,6 +77,10 @@ module KnifeForge
       end
     end
 
+    def subnet_name
+      return @subnet_name
+    end
+
     def serial(length=5)
       str = ''
       length.times do
@@ -100,6 +106,7 @@ module KnifeForge
       @availability_zone = die.availability_zone.to_s
       @image             = die.image.to_s
       @serial            = die.serial.to_s
+      @subnet_name       = die.subnet_name.to_s
       # @node_name         = die.node_name
     end
 
