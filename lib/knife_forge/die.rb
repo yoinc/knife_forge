@@ -43,10 +43,12 @@ module KnifeForge
       unless @config.knife[:subnet].nil?
         @config.knife[:subnet]
       else
-        @subnet ||= Proc.new {
-          choice  = random(@config.forge[:regions][region][:subnets].size).floor
-          @config.forge[:regions][region][:subnets][choice]
-        }.call
+        unless @config.forge[:regions][region][:subnets].nil?
+          @subnet ||= Proc.new {
+            choice  = random(@config.forge[:regions][region][:subnets].size).floor
+            @config.forge[:regions][region][:subnets][choice]
+          }.call
+        end
       end
     end
 
