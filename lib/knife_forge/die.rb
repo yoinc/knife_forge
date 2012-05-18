@@ -14,8 +14,8 @@ module KnifeForge
       @die_options ||= {
         :region            => region,
         :image             => image,
-        :availability_zone => availability_zone,
         :subnet            => subnet,
+        :availability_zone => availability_zone,
         :node_name         => node_name
       }.merge @config.knife
     end
@@ -49,6 +49,7 @@ module KnifeForge
             choice  = random(keys.size).floor
             keys[choice]
           }.call
+          @availability_zone ||= @region.to_s + @subnet_name.to_s
           @subnet ||= @config.forge[:regions][region][:subnets][@subnet_name]
         end
       end
@@ -65,6 +66,8 @@ module KnifeForge
             choice  = random(@config.forge[:regions][region][:availability_zones].size).floor
             @config.forge[:regions][region][:availability_zones][choice]
           }.call
+        else
+          @availability_zone
         end
       end
     end
