@@ -15,7 +15,8 @@ module KnifeForge
         :node_name         => node_name,
         :region            => region,
         :image             => image,
-        :availability_zone => availability_zone
+        :availability_zone => availability_zone,
+        :subnet            => subnet
       }.merge @config.knife
     end
 
@@ -38,14 +39,29 @@ module KnifeForge
       end
     end
 
+    def subnet
+      unless @config.knife[:subnet].nil?
+        @config.knife[:subnet]
+      else
+        @subnet ||= Proc.new {
+          choice  = random(@config.forge[:regions][region][:subnets].size).floor
+          @config.forge[:regions][region][:subnets][choice]
+        }.call
+      end
+    end
+
+
     def availability_zone
       unless @config.knife[:availability_zone].nil?
         @config.knife[:availability_zone]
       else
-        @availability_zone ||= Proc.new {
-          choice  = random(@config.forge[:regions][region][:availability_zones].size).floor
-          @config.forge[:regions][region][:availability_zones][choice]
-        }.call
+        unless @config.forge[:regions][region][:availability_zones].nil?
+           @availability_zone ||= Proc.new {
+            p @config.forge[:regions]
+            choice  = random(@config.forge[:regions][region][:availability_zones].size).floor
+            @config.forge[:regions][region][:availability_zones][choice]
+          }.call
+        end
       end
     end
 

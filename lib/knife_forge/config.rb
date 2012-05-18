@@ -28,7 +28,7 @@ module KnifeForge
       @forge = forge_defaults
       @forge[:node_name_pattern] = @cli[:forge_node_name_pattern] unless @cli[:forge_node_name_pattern].nil?
     end
-    
+
     def cli_args(parents)
       parents.each do |parent|
         CLI.clone_options(parent)
@@ -37,7 +37,7 @@ module KnifeForge
       knife_cli.parse_options(ARGV)
       knife_cli.config
     end
-    
+
     class CLI
       include Mixlib::CLI
 

@@ -12,7 +12,11 @@ module KnifeForge
 
     def cli_args
       @die.options.map do |key, value|
-        "--#{key.to_s.gsub('_','-')} #{value}"
+        unless value.nil?
+          "--#{key.to_s.gsub('_','-')} #{value}"
+        else
+          ""
+        end
       end.join(' ')
     end
   end
