@@ -16,8 +16,13 @@ module KnifeForge
         :image             => image,
         :subnet            => subnet,
         :availability_zone => availability_zone,
-        :node_name         => node_name
+        :node_name         => node_name,
+        :assign_eip        => assign_eip
       }.merge @config.knife
+    end
+
+    def assign_eip
+      @config.knife[:assign_eip] ? ' ' : nil
     end
 
     def node_name
