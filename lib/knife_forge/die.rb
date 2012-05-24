@@ -11,6 +11,7 @@ module KnifeForge
     end
 
     def options
+      @subnet_name = @config.cli[:forge_subnet]
       @die_options ||= {
         :region            => region,
         :image             => image,

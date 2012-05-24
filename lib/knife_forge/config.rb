@@ -56,6 +56,11 @@ module KnifeForge
         :long        => "--forge-node-name-pattern PATTERN",
         :description => "a manual override of the node name pattern, don't forget the serial."
 
+      option :forge_subnet,
+        :long => "--forge-subnet <a|b|c>",
+        :description => "For subnet based templates, pick this as the primary subnet",
+        :default => nil
+
       class << self
         def clone_options(parent)
           parent.options.each do |key, data|
