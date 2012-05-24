@@ -21,6 +21,7 @@ module KnifeForge
 
       @knife = knife_defaults.merge @cli
       # Mixlib is a piece of shit.
+      @knife.delete(:forge_subnet)
       @knife.delete(:forge_template)
       @knife.delete(:forge_quantity)
       @knife.delete(:forge_node_name_pattern)
