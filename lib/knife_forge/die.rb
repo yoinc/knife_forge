@@ -56,7 +56,7 @@ module KnifeForge
             keys[choice]
           }.call
           @availability_zone ||= @region.to_s + @subnet_name.to_s
-          @subnet ||= @config.forge[:regions][region][:subnets][@subnet_name]
+          @subnet ||= @config.forge[:regions][region][:subnets][@subnet_name.to_sym]
         end
       end
     end
